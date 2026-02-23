@@ -1,6 +1,7 @@
 package myapp.QualityMeasurementApp;
 
 
+
 import java.util.Objects;
 
 public class Inches {
