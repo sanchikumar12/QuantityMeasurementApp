@@ -27,7 +27,23 @@ public class Length {
     public LengthUnit getUnit() {
         return unit;
     }
+    
+    public Length add(Length other) {
+        if (other == null)
+            throw new IllegalArgumentException("Cannot add null length");
 
+        double thisBase = this.value * this.unit.getConversionFactor();
+        double otherBase = other.value * other.unit.getConversionFactor();
+
+        double sumBase = thisBase + otherBase;
+
+        double resultValue = sumBase / this.unit.getConversionFactor();
+
+        return new Length(resultValue, this.unit);
+    }
+
+    
+    
     public Length convertTo(LengthUnit targetUnit) {
         if (targetUnit == null) {
             throw new IllegalArgumentException("Target unit cannot be null");
@@ -50,7 +66,10 @@ public class Length {
         double baseValue = value * source.getConversionFactor();
         return baseValue / target.getConversionFactor();
     }
-
+    
+    private double toBase() {
+        return this.value * this.unit.getConversionFactor();
+    }
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -74,20 +93,4 @@ public class Length {
         return String.format("%.2f %s", value, unit);
     }
 
-    public enum LengthUnit {
-        FEET(1.0),
-        INCHES(1.0 / 12.0),
-        YARDS(3.0),
-        CENTIMETERS(0.0328084);
-
-        private final double conversionFactor; 
-
-        LengthUnit(double conversionFactor) {
-            this.conversionFactor = conversionFactor;
-        }
-
-        public double getConversionFactor() {
-            return conversionFactor;
-        }
-    }
 }

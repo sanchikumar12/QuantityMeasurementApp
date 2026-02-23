@@ -2,45 +2,69 @@ package myapp.QualityMeasurementApp;
 
 
 
+
+
+
+
 import java.util.Objects;
 
 public class Quantity {
 	private final double value;
 	private final LengthUnit unit;
+	private static final double EPSILON = 1e-6;
 	
 	public Quantity(double value , LengthUnit unit) {
-		if(unit == null) {
-			throw new IllegalArgumentException("unit cannot be null");
-		}
-		this.value = value;
-		this.unit = unit;
+		if (!Double.isFinite(value)) {
+            throw new IllegalArgumentException("Invalid numeric value");
+        }
+        if (unit == null) {
+            throw new IllegalArgumentException("Unit cannot be null");
+        }
+        this.value = value;
+        this.unit = unit;
 	}
+	
+	public Length.LengthUnit getUnit() {
+        return unit;
+    }
 	
 	public double getValue() {
 		return value;
 	}
 	
-	public LengthUnit getUnit() {
-		return unit;
-	}
+	 
+	private double toBase() {
+		return value * unit.getConversionFactor();	
+    }
 	
-	private double toBaseUnit() {
-		return unit.toFeet(value);
-	}
+	public Quantity add(Quantity other) {
+        return add(other, this.unit);
+    }
+	
+	public Quantity add(Quantity other, LengthUnit targetUnit) {
+        if (other == null || targetUnit == null) {
+            throw new IllegalArgumentException("Null not allowed");
+        }
+
+        double sumBase = this.toBase() + other.toBase();
+        double result = sumBase / targetUnit.getConversionFactor();
+
+        return new Quantity(result, targetUnit);
+    }
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(this == obj)return true;
-		if(obj == null || getClass() != obj.getClass())return false;
-		
-		Quantity other = (Quantity)obj;
+        if (this == obj) return true;
+        if (!(obj instanceof Quantity)) return false;
 
-        return Double.compare(this.toBaseUnit(), other.toBaseUnit()) == 0;
-	}
+        Quantity other = (Quantity) obj;
+
+        return Math.abs(this.toBase() - other.toBase()) < EPSILON;
+    }
 	
 	@Override 
 	public int hashCode() {
-		return Objects.hash(toBaseUnit());
+		return Objects.hash(this.toBase());
 	}
 	
 	@Override

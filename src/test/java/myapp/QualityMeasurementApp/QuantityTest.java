@@ -17,7 +17,7 @@ public class QuantityTest {
 	
 	@Test
 	void testEquality_InchToFeet_EquivalentValue() {
-		Quantity q1 = new Quantity(12.0 , LengthUnit.INCH);
+		Quantity q1 = new Quantity(12.0 , LengthUnit.INCHES);
 		Quantity q2 = new Quantity(1.0,LengthUnit.FEET);
 		assertEquals(q1,q2);
 	}

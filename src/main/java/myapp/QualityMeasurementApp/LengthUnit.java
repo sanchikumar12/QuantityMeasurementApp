@@ -5,35 +5,25 @@ package myapp.QualityMeasurementApp;
 public enum LengthUnit {
 
     FEET(1.0),
-    INCH(1.0 / 12.0);
+    INCHES(1.0 / 12.0),
+    YARDS(3.0),
+    CENTIMETERS(1.0 / 30.48);
 
-    private final double toFeetFactor;
+    private final double conversionFactorToFeet;
 
-    LengthUnit(double toFeetFactor) {
-        this.toFeetFactor = toFeetFactor;
+    LengthUnit(double conversionFactorToFeet) {
+        this.conversionFactorToFeet = conversionFactorToFeet;
     }
 
-    public double toFeet(double value) {
-        return value * toFeetFactor;
+    public double convertToBaseUnit(double value) {
+        return value * conversionFactorToFeet;
     }
-    public static LengthUnit fromString(String input) {
-        if (input == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
 
-        switch (input.trim().toLowerCase()) {
-            case "feet":
-            case "foot":
-            case "ft":
-                return FEET;
+    public double convertFromBaseUnit(double baseValue) {
+        return baseValue / conversionFactorToFeet;
+    }
 
-            case "inch":
-            case "inches":
-            case "in":
-                return INCH;
-
-            default:
-                throw new IllegalArgumentException("unsupported unit: " + input);
-        }
+    public double getConversionFactor() {
+        return conversionFactorToFeet;
     }
 }
