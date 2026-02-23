@@ -10,40 +10,40 @@ public class FeetTest {
     private final Feet sample = Feet.fromString("1.0"); // create once using fromString
 
     @Test
-    void givenSameValueWhenComparedThenShouldBeEqual() {
+    void testFeetEquality_SameValue() {
         Feet other = Feet.fromString("1.0");
         assertEquals(sample, other);
     }
 
     @Test
-    void givenDifferentValueWhenComparedThenShouldNotBeEqual() {
+    void testFeetEquality_DifferentValue() {
         Feet other = Feet.fromString("2.0");
         assertNotEquals(sample, other);
     }
 
     @Test
-    void givenNullWhenComparedThenShouldReturnFalse() {
+    void testFeetEquality_NullComparison() {
         assertNotEquals(null, sample);
     }
 
     @Test
-    void givenSameReferenceWhenComparedThenShouldReturnTrue() {
+    void testFeetEquality_DifferentClass() {
         assertEquals(sample, sample);
     }
 
     @Test
-    void givenDifferentTypeWhenComparedThenShouldReturnFalse() {
+    void testFeetEquality_SameReference() {
         assertFalse(sample.equals("1.0"));
     }
 
     @Test
-    void givenValidStringInputThenShouldCreateFeet() {
+    void testFeetEquality_ValidInput() {
         Feet fromString = Feet.fromString("1.0");
         assertEquals(sample, fromString);
     }
 
     @Test
-    void givenInvalidStringInputThenShouldThrowException() {
+    void testFeetEquality_InvalidInput() {
         assertThrows(InvalidFeetException.class, () -> Feet.fromString("abc"));
     }
 }

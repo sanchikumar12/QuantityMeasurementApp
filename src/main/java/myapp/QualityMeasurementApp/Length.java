@@ -2,6 +2,7 @@ package myapp.QualityMeasurementApp;
 
 
 
+
 import java.util.Objects;
 
 public class Length {
@@ -9,25 +10,10 @@ public class Length {
     private final double value;
     private final LengthUnit unit;
 
-    public enum LengthUnit {
-
-        FEET(12.0),              
-        INCHES(1.0),
-        YARDS(36.0),             
-        CENTIMETERS(0.393701);   
-
-        private final double conversionFactor;
-
-        LengthUnit(double conversionFactor) {
-            this.conversionFactor = conversionFactor;
-        }
-
-        public double toInches(double value) {
-            return value * conversionFactor;
-        }
-    }
-
     public Length(double value, LengthUnit unit) {
+        if (!Double.isFinite(value)) {
+            throw new IllegalArgumentException("Invalid numeric value");
+        }
         if (unit == null) {
             throw new IllegalArgumentException("Unit cannot be null");
         }
@@ -35,34 +21,74 @@ public class Length {
         this.unit = unit;
     }
 
-    private double convertToBaseUnit() {
-        return unit.toInches(value);
+    public double getValue() {
+        return value;
     }
 
-    public boolean compare(Length other) {
-        return this.equals(other);
+    public LengthUnit getUnit() {
+        return unit;
+    }
+
+    public Length convertTo(LengthUnit targetUnit) {
+        if (targetUnit == null) {
+            throw new IllegalArgumentException("Target unit cannot be null");
+        }
+
+        double baseValue = this.value * this.unit.getConversionFactor(); 
+        double convertedValue = baseValue / targetUnit.getConversionFactor(); 
+
+        return new Length(convertedValue, targetUnit);
+    }
+
+    public static double convert(double value, LengthUnit source, LengthUnit target) {
+        if (!Double.isFinite(value)) {
+            throw new IllegalArgumentException("Invalid numeric value");
+        }
+        if (source == null || target == null) {
+            throw new IllegalArgumentException("Units cannot be null");
+        }
+
+        double baseValue = value * source.getConversionFactor();
+        return baseValue / target.getConversionFactor();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof Length)) return false;
 
         Length other = (Length) obj;
 
-        double thisValue = this.convertToBaseUnit();
-        double otherValue = other.convertToBaseUnit();
+        double thisBase = this.value * this.unit.getConversionFactor();
+        double otherBase = other.value * other.unit.getConversionFactor();
 
-        return Double.compare(thisValue, otherValue) == 0;
+        return Math.abs(thisBase - otherBase) < 1e-6;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(convertToBaseUnit());
+        return Objects.hash(value, unit);
     }
 
     @Override
     public String toString() {
-        return "Quantity(" + value + ", " + unit + ")";
+        return String.format("%.2f %s", value, unit);
+    }
+
+    public enum LengthUnit {
+        FEET(1.0),
+        INCHES(1.0 / 12.0),
+        YARDS(3.0),
+        CENTIMETERS(0.0328084);
+
+        private final double conversionFactor; 
+
+        LengthUnit(double conversionFactor) {
+            this.conversionFactor = conversionFactor;
+        }
+
+        public double getConversionFactor() {
+            return conversionFactor;
+        }
     }
 }
