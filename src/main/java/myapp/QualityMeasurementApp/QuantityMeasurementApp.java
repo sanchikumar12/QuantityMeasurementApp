@@ -1,4 +1,6 @@
-package com.apps.quantitymeasurement;
+package myapp.QualityMeasurementApp;
+
+
 
 import java.util.Scanner;
 
