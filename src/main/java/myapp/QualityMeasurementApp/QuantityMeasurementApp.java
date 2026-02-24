@@ -1,7 +1,6 @@
 package myapp.QualityMeasurementApp;
 
 
-
 import java.util.Scanner;
 
 public class QuantityMeasurementApp {
