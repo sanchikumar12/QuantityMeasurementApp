@@ -5,48 +5,29 @@ package myapp.QualityMeasurementApp;
 import java.util.Scanner;
 
 public class QuantityMeasurementApp {
+	
+	public static void main(String[] args) {
+		QuantityWeight w1 = new QuantityWeight(1.0,  WeightUnit.KILOGRAM);
+        QuantityWeight w2 = new QuantityWeight(1000.0 , WeightUnit.GRAM);
 
-    // Inner class to represent Feet measurement
-    public static class Feet {
+        System.out.println("1 kg equals 1000 g ??");
+        System.out.println(w1.equals(w2));
 
-        private final double value;
+        System.out.println();
 
-        // Constructor
-        public Feet(double value) {
-            this.value = value;
-        }
+        QuantityWeight w3 = new QuantityWeight(2.0, WeightUnit.POUND);
+        System.out.println("2 pounds to kg:");
+        System.out.println(w3.convertTo(WeightUnit.KILOGRAM));
 
-        // Override equals() to compare Feet objects
-        @Override
-        public boolean equals(Object obj) {
+        System.out.println();
 
-            if (this == obj)
-                return true;
+        QuantityWeight w4 = new QuantityWeight(500.0, WeightUnit.GRAM);
+        System.out.println("1 kg + 500 g:");
+        System.out.println(w1.add(w4));
 
-            if (obj == null || getClass() != obj.getClass())
-                return false;
+        System.out.println();
 
-            Feet other = (Feet) obj;
-
-            return Double.compare(this.value, other.value) == 0;
-        }
-    }
-
-    // Main method with user input
-    public static void main(String[] args) {
-
-        try (Scanner sc = new Scanner(System.in)) {
-
-            System.out.print("Enter first value in feet: ");
-            double inputOne = sc.nextDouble();
-
-            System.out.print("Enter second value in feet: ");
-            double inputTwo = sc.nextDouble();
-
-            Feet f1 = new Feet(inputOne);
-            Feet f2 = new Feet(inputTwo);
-
-            System.out.println("Equal (" + f1.equals(f2) + ")");
-        }
-    }
+        System.out.println("1 kg + 1000 g (in GRAM):");
+        System.out.println(w1.add(w2, WeightUnit.GRAM));
+	}
 }
