@@ -5,14 +5,14 @@ import java.util.List;
 
 import com.apps.entity.QuantityMeasurementEntity;
 
-public class QuantityMeasurementCacheRepository
-        implements IQuantityMeasurementRepository {
+public class QuantityMeasurementCacheRepository implements IQuantityMeasurementRepository {
 
     private static QuantityMeasurementCacheRepository instance;
 
-    private List<QuantityMeasurementEntity> cache = new ArrayList<>();
+    private final List<QuantityMeasurementEntity> cache = new ArrayList<>();
 
-    private QuantityMeasurementCacheRepository() {}
+    private QuantityMeasurementCacheRepository() {
+    }
 
     public static QuantityMeasurementCacheRepository getInstance() {
 
@@ -30,6 +30,7 @@ public class QuantityMeasurementCacheRepository
 
     @Override
     public List<QuantityMeasurementEntity> findAll() {
-        return new ArrayList<>(cache);
+        return cache;
     }
+
 }

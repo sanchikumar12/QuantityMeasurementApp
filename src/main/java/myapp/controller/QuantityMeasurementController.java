@@ -18,7 +18,7 @@ public class QuantityMeasurementController {
 
         QuantityDTO result = service.add(q1, q2);
 
-        System.out.println("Addition Result: " 
-                + result.getValue() + " " + result.getUnit());
+        System.out.println("Addition Result: " + result);
     }
+
 }

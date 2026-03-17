@@ -17,7 +17,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
         this.repository = repository;
     }
 
-    // DTO -> Quantity conversion
+    // Convert DTO -> Quantity object
     private Quantity<?> createQuantity(QuantityDTO dto) {
 
         try {
