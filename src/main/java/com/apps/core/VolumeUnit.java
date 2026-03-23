@@ -1,6 +1,5 @@
 package com.apps.core;
 
-// volume units
 public enum VolumeUnit implements IMeasurable {
 
     LITRE(1.0),
@@ -20,12 +19,12 @@ public enum VolumeUnit implements IMeasurable {
 
     @Override
     public double convertToBaseUnit(double value) {
-        return value * conversionFactor; // convert to litre
+        return value * conversionFactor;
     }
 
     @Override
     public double convertFromBaseUnit(double baseValue) {
-        return baseValue / conversionFactor; // from litre
+        return baseValue / conversionFactor;
     }
 
     @Override

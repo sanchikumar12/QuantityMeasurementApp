@@ -1,6 +1,5 @@
 package com.apps.core;
 
-
 public interface IMeasurable {
 
     String getUnitName();
@@ -11,7 +10,6 @@ public interface IMeasurable {
 
     double convertFromBaseUnit(double baseValue);
 
-
     SupportsArithmetic supportsArithmetic = () -> true;
 
     default boolean supportsArithmetic() {
@@ -19,6 +17,6 @@ public interface IMeasurable {
     }
 
     default void validateOperationSupport(String operation) {
-        
+        // Default: all operations supported
     }
 }
